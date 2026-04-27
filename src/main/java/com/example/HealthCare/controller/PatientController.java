@@ -24,16 +24,18 @@ public class PatientController {
     }
 
     @PostMapping
-    public PatientDTO ajouterPatients(PatientDTO patientDTO){
+    public PatientDTO ajouterPatients(@RequestBody PatientDTO patientDTO){
         return patientService.ajouter(patientDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public String supprimerPatient() {
-        return "Patients a supprimer";
-    }
+
     @PutMapping("/{id}")
-    public String modifierPatient(){
-        return "Patients a modifier";
+    public PatientDTO modifierPatient(@PathVariable Long id , @RequestBody PatientDTO patientDTO){
+        return patientService.modifier(id , patientDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void supprimerPatient(@PathVariable Long id) {
+        patientService.supprimer(id);
     }
 }

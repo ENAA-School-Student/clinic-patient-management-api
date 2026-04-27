@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "dossierMedical")
+@Table(name = "dossier_medical")
 @Getter
 @Setter
 public class DossierMedical {
@@ -17,4 +17,7 @@ public class DossierMedical {
     private String diagnostic;
     private String observations;
     private LocalDateTime dateCreation;
+
+    @OneToOne(mappedBy = "dossierMedical")
+    private Patient patient;
 }

@@ -21,16 +21,18 @@ public class MedecinController {
     }
 
     @PostMapping
-    public MedecinDTO ajouterMedecin(MedecinDTO medecinDTO){
+    public MedecinDTO ajouterMedecin(@RequestBody MedecinDTO medecinDTO){
         return medecinService.ajouter(medecinDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public String supprimerMedecin() {
-        return "Medecin a supprimer";
-    }
     @PutMapping("/{id}")
-    public String modifierMedecin(){
-        return "Medecin a modifier";
+    public MedecinDTO modifierMedecin(@PathVariable Long id , @RequestBody MedecinDTO medecinDTO){
+        return medecinService.modifier(id , medecinDTO);
+    }
+
+
+    @DeleteMapping("/{id}")
+    public void supprimerMedecin(@PathVariable Long id) {
+        medecinService.supprimer(id);
     }
 }

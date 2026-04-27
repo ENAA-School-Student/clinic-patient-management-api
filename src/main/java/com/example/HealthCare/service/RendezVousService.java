@@ -28,4 +28,16 @@ public class RendezVousService {
         RendezVous r = rendezVousRepository.save(rendezVous);
         return rendezVousMapper.toDTO(r);
      }
+
+     public RendezVousDTO modifier(Long id , RendezVousDTO rendezVousDTO){
+        RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(() -> new RuntimeException("rendezVous pas trouver"));
+        rendezVous.setDateRendezVous(rendezVousDTO.getDateRendezVous());
+        rendezVous.setStatut(rendezVousDTO.getStatut());
+        RendezVous r = rendezVousRepository.save(rendezVous);
+        return rendezVousMapper.toDTO(r);
+     }
+
+     public void supprimer(Long id){
+        rendezVousRepository.deleteById(id);
+     }
 }

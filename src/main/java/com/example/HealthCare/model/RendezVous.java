@@ -7,7 +7,7 @@ import lombok.Setter;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name = "rendezVous")
+@Table(name = "rendez_vous")
 @Getter
 @Setter
 public class RendezVous {
@@ -16,4 +16,10 @@ public class RendezVous {
    private Long id;
    private LocalDateTime dateRendezVous;
    private String statut;
+   @ManyToOne
+    @JoinColumn(name = "patient_id")
+    private Patient patient;
+   @ManyToOne
+   @JoinColumn(name = "medecin_id")
+   private Medecin medecin;
 }

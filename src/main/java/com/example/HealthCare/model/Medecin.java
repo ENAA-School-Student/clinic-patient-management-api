@@ -3,6 +3,8 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.List;
+
 @Entity
 @Table(name = "medecin")
 @Getter
@@ -12,8 +14,11 @@ public class Medecin {
 @GeneratedValue(strategy = GenerationType.IDENTITY )
  private Long id;
  private String nom;
- private String spécialité;
+ private String specialite;
  private String email;
- private String téléphone;
+ private String telephone;
+ @OneToMany(mappedBy="medecin" , cascade = CascadeType.ALL)
+ private List<RendezVous> rendezVousList;
+
 
 }

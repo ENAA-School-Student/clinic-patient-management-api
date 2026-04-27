@@ -29,4 +29,17 @@ public class DossierMedicalService {
        DossierMedical d = dossierMedicalRepository.save(dossierMedical);
        return dossierMedicalMapper.toDTO(d);
     }
+
+    public DossierMedicalDTO modifier(Long id , DossierMedicalDTO dossierMedicalDTO){
+        DossierMedical dossierMedical = dossierMedicalRepository.findById(id).orElseThrow(() -> new RuntimeException("dossier pas trouver"));
+        dossierMedical.setObservations(dossierMedicalDTO.getObservations());
+        dossierMedical.setDiagnostic(dossierMedicalDTO.getDiagnostic());
+        dossierMedical.setDateCreation(dossierMedicalDTO.getDateCreation());
+        DossierMedical d = dossierMedicalRepository.save(dossierMedical);
+        return dossierMedicalMapper.toDTO(d);
+    }
+
+    public void supprimer(Long id){
+        dossierMedicalRepository.deleteById(id);
+    }
 }

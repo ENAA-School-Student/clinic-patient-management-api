@@ -22,16 +22,18 @@ public class RendezVousController {
     }
 
     @PostMapping
-    public RendezVousDTO creerRendezVous(RendezVousDTO rendezVousDTO){
+    public RendezVousDTO creerRendezVous(@RequestBody RendezVousDTO rendezVousDTO){
         return rendezVousService.ajouter(rendezVousDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public String supprimerRendezVous() {
-        return "Medecin a RendezVous";
-    }
+
     @PutMapping("/{id}")
-    public String modifierRendezVous(){
-        return "Medecin a RendezVous";
+    public RendezVousDTO modifierRendezVous(@PathVariable Long id , @RequestBody RendezVousDTO rendezVousDTO){
+        return rendezVousService.modifier(id , rendezVousDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void supprimerRendezVous(@PathVariable Long id) {
+        rendezVousService.supprimer(id);
     }
 }

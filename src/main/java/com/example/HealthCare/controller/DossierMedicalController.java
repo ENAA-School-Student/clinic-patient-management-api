@@ -21,16 +21,18 @@ public class DossierMedicalController {
     }
 
     @PostMapping
-    public DossierMedicalDTO creerDossierMedical(DossierMedicalDTO dossierMedicalDTO){
+    public DossierMedicalDTO creerDossierMedical(@RequestBody DossierMedicalDTO dossierMedicalDTO){
         return dossierMedicalService.ajouter(dossierMedicalDTO) ;
     }
 
-    @DeleteMapping("/{id}")
-    public String supprimerDossierMedical() {
-        return "Medecin a RendezVous";
-    }
+
     @PutMapping("/{id}")
-    public String modifierDossierMedical(){
-        return "Medecin a RendezVous";
+    public DossierMedicalDTO modifierDossierMedical(@PathVariable Long id , @RequestBody DossierMedicalDTO dossierMedicalDTO){
+        return dossierMedicalService.modifier(id , dossierMedicalDTO);
+    }
+
+    @DeleteMapping("/{id}")
+    public void supprimerDossierMedical(@PathVariable Long id) {
+        dossierMedicalService.supprimer(id);
     }
 }
