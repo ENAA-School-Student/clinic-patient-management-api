@@ -2,8 +2,8 @@ package com.example.HealthCare.controller;
 
 import com.example.HealthCare.dto.DossierMedicalDTO;
 import com.example.HealthCare.service.DossierMedicalService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -22,7 +22,7 @@ public class DossierMedicalController {
 
     @PostMapping
     public DossierMedicalDTO creerDossierMedical(@RequestBody DossierMedicalDTO dossierMedicalDTO){
-        return dossierMedicalService.ajouter(dossierMedicalDTO) ;
+        return dossierMedicalService.creer(dossierMedicalDTO) ;
     }
 
 
@@ -35,4 +35,21 @@ public class DossierMedicalController {
     public void supprimerDossierMedical(@PathVariable Long id) {
         dossierMedicalService.supprimer(id);
     }
+
+    @GetMapping("/consulter")
+    public DossierMedicalDTO consulterDossierMedical(@PathParam("id") Long id){
+        return dossierMedicalService.consulter(id);
+    }
+
+    @PutMapping("/{id}/ajouterObservation")
+    public DossierMedicalDTO ajouterObservation(Long id , @RequestBody String observation){
+        return  dossierMedicalService.ajouterOBS(id , observation);
+    }
+
+    @PutMapping("/{id}/ajouterDiagnostic")
+    public DossierMedicalDTO ajouterDiagnostic(Long id , @RequestBody String diagnostic){
+        return  dossierMedicalService.ajouterDiag(id , diagnostic);
+    }
 }
+
+

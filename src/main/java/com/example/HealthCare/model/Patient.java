@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -19,10 +19,9 @@ public class Patient {
     private String prenom;
     private String email;
     private String telephone;
-    private LocalDateTime dateNaissance;
+    private LocalDate dateNaissance;
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)
     private List<RendezVous> rendezVousList;
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "dossier_medical_id", referencedColumnName = "id")
+    @OneToOne(mappedBy = "patient" , cascade = CascadeType.ALL)
     private DossierMedical dossierMedical;
 }

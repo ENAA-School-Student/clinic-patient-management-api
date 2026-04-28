@@ -18,6 +18,7 @@ public class DossierMedical {
     private String observations;
     private LocalDateTime dateCreation;
 
-    @OneToOne(mappedBy = "dossierMedical")
+    @OneToOne
+    @JoinColumn(name = "patient_id" , referencedColumnName = "id")
     private Patient patient;
 }

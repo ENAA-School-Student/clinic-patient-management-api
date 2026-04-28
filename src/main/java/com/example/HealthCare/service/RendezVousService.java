@@ -1,5 +1,6 @@
 package com.example.HealthCare.service;
 
+import com.example.HealthCare.dto.PatientDTO;
 import com.example.HealthCare.dto.RendezVousDTO;
 import com.example.HealthCare.mapper.RendezVousMapper;
 import com.example.HealthCare.model.RendezVous;
@@ -37,7 +38,20 @@ public class RendezVousService {
         return rendezVousMapper.toDTO(r);
      }
 
-     public void supprimer(Long id){
-        rendezVousRepository.deleteById(id);
+     public RendezVousDTO annuler(Long id){
+       RendezVous rendezVous =  rendezVousRepository.findById(id).orElseThrow(() -> new RuntimeException("rendezvous pas trouver"));
+       rendezVous.setStatut("ANNULE");
+       RendezVous r = rendezVousRepository.save(rendezVous);
+       return rendezVousMapper.toDTO(r);
      }
+
+     public RendezVousDTO rechercherParPatientId(Long patientId){
+        RendezVous rendezVous = rendezVousRepository.findByPatientId(patientId);
+        return rendezVousMapper.toDTO(rendezVous);
+     }
+     public RendezVousDTO rechercherParMedecinId(Long medecinId){
+        RendezVous rendezVous = rendezVousRepository.findByMedecinId(medecinId);
+        return rendezVousMapper.toDTO(rendezVous);
+    }
+
 }

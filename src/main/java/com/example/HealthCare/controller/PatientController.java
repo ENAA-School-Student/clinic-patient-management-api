@@ -4,6 +4,7 @@ package com.example.HealthCare.controller;
 import com.example.HealthCare.dto.PatientDTO;
 import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.service.PatientService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -37,5 +38,10 @@ public class PatientController {
     @DeleteMapping("/{id}")
     public void supprimerPatient(@PathVariable Long id) {
         patientService.supprimer(id);
+    }
+
+    @GetMapping("/consulter")
+    public PatientDTO cosulterPatient(@PathParam("id") Long id){
+       return patientService.consulter(id);
     }
 }

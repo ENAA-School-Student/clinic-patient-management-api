@@ -3,6 +3,7 @@ package com.example.HealthCare.controller;
 
 import com.example.HealthCare.dto.RendezVousDTO;
 import com.example.HealthCare.service.RendezVousService;
+import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -32,8 +33,19 @@ public class RendezVousController {
         return rendezVousService.modifier(id , rendezVousDTO);
     }
 
-    @DeleteMapping("/{id}")
-    public void supprimerRendezVous(@PathVariable Long id) {
-        rendezVousService.supprimer(id);
+
+    @PutMapping("/annuler")
+    public RendezVousDTO annulerRendezVous(@PathParam("id") Long id ){
+    return rendezVousService.annuler(id);
+    }
+
+    @GetMapping("/{id}/rechercherParPatient")
+    public RendezVousDTO rechercherParPatient(@PathVariable Long id){
+        return rendezVousService.rechercherParPatientId(id);
+    }
+
+    @GetMapping("/{id}/rechercherParMedecin")
+    public RendezVousDTO rechercherParMedecin(@PathVariable Long id){
+        return rendezVousService.rechercherParMedecinId(id);
     }
 }

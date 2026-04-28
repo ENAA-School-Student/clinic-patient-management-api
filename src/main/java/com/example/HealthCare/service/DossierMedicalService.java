@@ -6,6 +6,7 @@ import com.example.HealthCare.model.DossierMedical;
 import com.example.HealthCare.repository.DossierMedicalRepository;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -24,8 +25,9 @@ public class DossierMedicalService {
         return  dossierMedicalMapper.toDTOList(dossierMedicalList);
     }
 
-    public DossierMedicalDTO ajouter(DossierMedicalDTO dossierMedicalDTO){
+    public DossierMedicalDTO creer(DossierMedicalDTO dossierMedicalDTO){
        DossierMedical dossierMedical = dossierMedicalMapper.toEntity(dossierMedicalDTO);
+       dossierMedical.setDateCreation(LocalDateTime.now());
        DossierMedical d = dossierMedicalRepository.save(dossierMedical);
        return dossierMedicalMapper.toDTO(d);
     }
@@ -42,4 +44,25 @@ public class DossierMedicalService {
     public void supprimer(Long id){
         dossierMedicalRepository.deleteById(id);
     }
+
+    public DossierMedicalDTO consulter(Long id){
+        DossierMedical dossierMedical = dossierMedicalRepository.findById(id).orElseThrow(() -> new RuntimeException("dossier pas trouver"));
+        return dossierMedicalMapper.toDTO(dossierMedical);
+    }
+
+    public DossierMedicalDTO ajouterOBS(Long id , String observation){
+        DossierMedical dossierMedical = dossierMedicalRepository.findById(id).orElseThrow(() -> new RuntimeException("dossier pas trouver"));
+        dossierMedical.setObservations(dossierMedical.getObservations() + "\n"+ observation);
+        DossierMedical d = dossierMedicalRepository.save(dossierMedical);
+        return  dossierMedicalMapper.toDTO(d);
+    }
+
+    public DossierMedicalDTO ajouterDiag(Long id , String diagnostic){
+        DossierMedical dossierMedical = dossierMedicalRepository.findById(id).orElseThrow(() -> new RuntimeException("dossier pas trouver"));
+        dossierMedical.setDiagnostic(dossierMedical.getDiagnostic() + "\n" + diagnostic);
+        DossierMedical d = dossierMedicalRepository.save(dossierMedical);
+        return  dossierMedicalMapper.toDTO(d);
+    }
 }
+
+
