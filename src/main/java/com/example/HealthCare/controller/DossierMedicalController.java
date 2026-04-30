@@ -36,8 +36,8 @@ public class DossierMedicalController {
         dossierMedicalService.supprimer(id);
     }
 
-    @GetMapping("/consulter")
-    public DossierMedicalDTO consulterDossierMedical(@PathParam("id") Long id){
+    @GetMapping("/{id}/consulter")
+    public DossierMedicalDTO consulterDossierMedical(@PathVariable Long id){
         return dossierMedicalService.consulter(id);
     }
 

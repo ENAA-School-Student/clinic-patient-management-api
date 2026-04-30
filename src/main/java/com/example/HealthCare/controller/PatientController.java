@@ -41,8 +41,8 @@ public class PatientController {
         patientService.supprimer(id);
     }
 
-    @GetMapping("/consulter")
-    public PatientDTO cosulterPatient(@PathParam("id") Long id){
+    @GetMapping("/{id}/consulter")
+    public PatientDTO cosulterPatient(@PathVariable Long id){
        return patientService.consulter(id);
     }
 }

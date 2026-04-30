@@ -35,8 +35,8 @@ public class RendezVousController {
     }
 
 
-    @PutMapping("/annuler")
-    public RendezVousDTO annulerRendezVous(@PathParam("id") Long id ){
+    @PutMapping("/{id}/annuler")
+    public RendezVousDTO annulerRendezVous(@PathVariable Long id ){
     return rendezVousService.annuler(id);
     }
 
