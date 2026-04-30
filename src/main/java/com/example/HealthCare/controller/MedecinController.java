@@ -2,6 +2,7 @@ package com.example.HealthCare.controller;
 
 import com.example.HealthCare.dto.MedecinDTO;
 import com.example.HealthCare.service.MedecinService;
+import jakarta.validation.Valid;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -21,12 +22,12 @@ public class MedecinController {
     }
 
     @PostMapping
-    public MedecinDTO ajouterMedecin(@RequestBody MedecinDTO medecinDTO){
+    public MedecinDTO ajouterMedecin(@Valid @RequestBody MedecinDTO medecinDTO){
         return medecinService.ajouter(medecinDTO);
     }
 
     @PutMapping("/{id}")
-    public MedecinDTO modifierMedecin(@PathVariable Long id , @RequestBody MedecinDTO medecinDTO){
+    public MedecinDTO modifierMedecin(@PathVariable Long id ,@Valid @RequestBody MedecinDTO medecinDTO){
         return medecinService.modifier(id , medecinDTO);
     }
 

@@ -4,6 +4,7 @@ package com.example.HealthCare.controller;
 import com.example.HealthCare.dto.PatientDTO;
 import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.service.PatientService;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
@@ -25,13 +26,13 @@ public class PatientController {
     }
 
     @PostMapping
-    public PatientDTO ajouterPatients(@RequestBody PatientDTO patientDTO){
+    public PatientDTO ajouterPatients(@Valid @RequestBody PatientDTO patientDTO){
         return patientService.ajouter(patientDTO);
     }
 
 
     @PutMapping("/{id}")
-    public PatientDTO modifierPatient(@PathVariable Long id , @RequestBody PatientDTO patientDTO){
+    public PatientDTO modifierPatient(@PathVariable Long id ,@Valid @RequestBody PatientDTO patientDTO){
         return patientService.modifier(id , patientDTO);
     }
 

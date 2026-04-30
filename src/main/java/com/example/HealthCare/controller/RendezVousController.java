@@ -3,6 +3,7 @@ package com.example.HealthCare.controller;
 
 import com.example.HealthCare.dto.RendezVousDTO;
 import com.example.HealthCare.service.RendezVousService;
+import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,13 +24,13 @@ public class RendezVousController {
     }
 
     @PostMapping
-    public RendezVousDTO creerRendezVous(@RequestBody RendezVousDTO rendezVousDTO){
+    public RendezVousDTO creerRendezVous(@Valid @RequestBody RendezVousDTO rendezVousDTO){
         return rendezVousService.ajouter(rendezVousDTO);
     }
 
 
     @PutMapping("/{id}")
-    public RendezVousDTO modifierRendezVous(@PathVariable Long id , @RequestBody RendezVousDTO rendezVousDTO){
+    public RendezVousDTO modifierRendezVous(@PathVariable Long id ,@Valid @RequestBody RendezVousDTO rendezVousDTO){
         return rendezVousService.modifier(id , rendezVousDTO);
     }
 
