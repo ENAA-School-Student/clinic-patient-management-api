@@ -2,10 +2,8 @@ package com.example.HealthCare.controller;
 
 
 import com.example.HealthCare.dto.PatientDTO;
-import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.service.PatientService;
 import jakarta.validation.Valid;
-import jakarta.websocket.server.PathParam;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;

@@ -1,6 +1,7 @@
 package com.example.HealthCare.dto;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -12,7 +13,7 @@ import java.time.LocalDateTime;
 public class RendezVousDTO {
     private Long id;
 
-    @NotBlank(message = "date est obligatoire")
+    @NotNull(message = "date est obligatoire")
     private LocalDateTime dateRendezVous;
 
     @NotBlank(message = "statut est obligatoire")

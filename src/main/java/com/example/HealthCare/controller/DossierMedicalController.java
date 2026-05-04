@@ -42,12 +42,12 @@ public class DossierMedicalController {
     }
 
     @PutMapping("/{id}/ajouterObservation")
-    public DossierMedicalDTO ajouterObservation(Long id , @RequestBody String observation){
+    public DossierMedicalDTO ajouterObservation(@PathVariable Long id , @RequestBody String observation){
         return  dossierMedicalService.ajouterOBS(id , observation);
     }
 
     @PutMapping("/{id}/ajouterDiagnostic")
-    public DossierMedicalDTO ajouterDiagnostic(Long id , @RequestBody String diagnostic){
+    public DossierMedicalDTO ajouterDiagnostic(@PathVariable Long id , @RequestBody String diagnostic){
         return  dossierMedicalService.ajouterDiag(id , diagnostic);
     }
 }

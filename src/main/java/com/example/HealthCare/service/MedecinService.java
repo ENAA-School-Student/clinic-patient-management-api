@@ -3,7 +3,6 @@ package com.example.HealthCare.service;
 
 import com.example.HealthCare.dto.MedecinDTO;
 import com.example.HealthCare.mapper.MedecinMapper;
-import com.example.HealthCare.mapper.MedecinMapperImpl;
 import com.example.HealthCare.model.Medecin;
 import com.example.HealthCare.repository.MedecinRepository;
 import org.springframework.stereotype.Service;
@@ -15,12 +14,12 @@ public class MedecinService {
 
     private final MedecinRepository medecinRepository;
     private final MedecinMapper medecinMapper;
-    private final MedecinMapperImpl medecinMapperImpl;
 
-    public MedecinService(MedecinMapper medecinMapper , MedecinRepository medecinRepository, MedecinMapperImpl medecinMapperImpl){
+
+    public MedecinService(MedecinMapper medecinMapper , MedecinRepository medecinRepository){
         this.medecinMapper = medecinMapper;
         this.medecinRepository = medecinRepository;
-        this.medecinMapperImpl = medecinMapperImpl;
+
     }
 
     public List<MedecinDTO> lister(){
@@ -38,9 +37,9 @@ public class MedecinService {
         Medecin medecin = medecinRepository.findById(id).orElseThrow(() -> new RuntimeException("mededecin pas trouver"));
 
         medecin.setNom(medecinDTO.getNom());
-        medecin.setSpecialite(medecin.getSpecialite());
+        medecin.setSpecialite(medecinDTO.getSpecialite());
         medecin.setTelephone(medecinDTO.getTelephone());
-        medecin.setEmail(medecin.getEmail());
+        medecin.setEmail(medecinDTO.getEmail());
         Medecin m = medecinRepository.save(medecin);
         return medecinMapper.toDTO(m);
     }
