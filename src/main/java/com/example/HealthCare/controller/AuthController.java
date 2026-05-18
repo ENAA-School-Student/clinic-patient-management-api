@@ -1,5 +1,7 @@
 package com.example.HealthCare.controller;
 
+import com.example.HealthCare.dto.UserLoginDTO;
+import com.example.HealthCare.dto.UserRegisterDTO;
 import com.example.HealthCare.model.User;
 import com.example.HealthCare.service.AuthService;
 import jakarta.validation.Valid;
@@ -14,12 +16,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public String register(@Valid @RequestBody User user) {
-        return authService.register(user);
+    public String register(@Valid @RequestBody UserRegisterDTO userRegister) {
+        return authService.register(userRegister);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody User user) {
-        return authService.login(user);
+    public String login(@RequestBody UserLoginDTO userLogin) {
+        return authService.login(userLogin);
     }
 }
