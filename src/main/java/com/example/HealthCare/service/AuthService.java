@@ -39,12 +39,12 @@ public class AuthService {
         }
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         userRepository.save(user);
-        return jwtUtils.generateToken(user.getUsername());
+        return jwtUtils.generateToken(user.getUsername() , user.getRole().name());
     }
 
     public String login(UserLoginDTO userLoginDTO) {
         User user = userMapper.toUserL(userLoginDTO);
         authManager.authenticate(new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword()));
-        return jwtUtils.generateToken(user.getUsername());
+        return jwtUtils.generateToken(user.getUsername() , userRepository.findByUsername(user.getUsername()).get().getRole().name());
     }
 }
