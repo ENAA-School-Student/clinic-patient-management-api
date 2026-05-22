@@ -3,7 +3,10 @@ package com.example.HealthCare.service;
 import com.example.HealthCare.dto.DossierMedicalDTO;
 import com.example.HealthCare.mapper.DossierMedicalMapper;
 import com.example.HealthCare.model.DossierMedical;
+import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.repository.DossierMedicalRepository;
+import com.example.HealthCare.repository.PatientRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -14,10 +17,13 @@ public class DossierMedicalService {
 
     private final DossierMedicalRepository dossierMedicalRepository;
     private final DossierMedicalMapper dossierMedicalMapper;
+    private final PatientRepository patientRepository;
 
-    public DossierMedicalService(DossierMedicalRepository dossierMedicalRepository , DossierMedicalMapper dossierMedicalMapper ){
+    public DossierMedicalService(DossierMedicalRepository dossierMedicalRepository , DossierMedicalMapper dossierMedicalMapper,
+                                 PatientRepository patientRepository ){
         this.dossierMedicalMapper = dossierMedicalMapper;
         this.dossierMedicalRepository = dossierMedicalRepository;
+        this.patientRepository = patientRepository;
     }
 
     public List<DossierMedicalDTO> lister(){
@@ -63,6 +69,13 @@ public class DossierMedicalService {
         DossierMedical d = dossierMedicalRepository.save(dossierMedical);
         return  dossierMedicalMapper.toDTO(d);
     }
+
+    public DossierMedicalDTO monDossier() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Patient p = patientRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("patient pas trouver"));
+
+        DossierMedical d = dossierMedicalRepository.findByPatientId(p.getId());
+        return dossierMedicalMapper.toDTO(d);
+    }
 }
-
-

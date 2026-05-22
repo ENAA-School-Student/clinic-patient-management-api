@@ -4,6 +4,10 @@ import com.example.HealthCare.dto.PatientDTO;
 import com.example.HealthCare.mapper.PatientMapper;
 import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.repository.PatientRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,6 +28,7 @@ public class PatientService {
         return patientMapper.toDTOList(patients);
     }
 
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public PatientDTO ajouter(PatientDTO patientDTO){
         Patient patient =  patientMapper.toEntity(patientDTO);
         Patient p = patientRepository.save(patient);
@@ -41,6 +46,7 @@ public class PatientService {
         return patientMapper.toDTO(p);
 
     }
+
     public void supprimer(Long id){
         patientRepository.deleteById(id);
     }
@@ -50,4 +56,12 @@ public class PatientService {
         return patientMapper.toDTO(patient);
     }
 
+    public PatientDTO monProfil() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Patient p = patientRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("patient pas trouver"));
+        return patientMapper.toDTO(p);
+    }
+
 }
+

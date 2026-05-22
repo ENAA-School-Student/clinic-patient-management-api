@@ -5,6 +5,7 @@ import com.example.HealthCare.dto.MedecinDTO;
 import com.example.HealthCare.mapper.MedecinMapper;
 import com.example.HealthCare.model.Medecin;
 import com.example.HealthCare.repository.MedecinRepository;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -44,7 +45,15 @@ public class MedecinService {
         return medecinMapper.toDTO(m);
     }
 
+    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
     public void supprimer(Long id){
         medecinRepository.deleteById(id);
+    }
+
+    public MedecinDTO monProfil() {
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        Medecin m = medecinRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("medecin pas trouver"));
+        return medecinMapper.toDTO(m);
     }
 }
