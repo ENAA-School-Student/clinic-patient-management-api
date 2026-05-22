@@ -6,19 +6,17 @@ import lombok.Setter;
 import java.util.List;
 
 @Entity
-@Table(name = "medecin")
 @Getter
 @Setter
-public class Medecin {
+@DiscriminatorValue("MEDECIN")
+public class Medecin extends User {
 @Id
 @GeneratedValue(strategy = GenerationType.IDENTITY )
  private Long id;
  private String nom;
  private String specialite;
- private String email;
  private String telephone;
  @OneToMany(mappedBy="medecin" , cascade = CascadeType.ALL)
  private List<RendezVous> rendezVousList;
-
 
 }

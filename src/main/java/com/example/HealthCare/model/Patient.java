@@ -8,16 +8,13 @@ import java.time.LocalDate;
 import java.util.List;
 
 @Entity
-@Table(name = "patient")
 @Getter
 @Setter
-public class Patient {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long id;
+@DiscriminatorValue("PATIENT")
+public class Patient extends User{
+
     private String nom;
     private String prenom;
-    private String email;
     private String telephone;
     private LocalDate dateNaissance;
     @OneToMany(mappedBy = "patient", cascade = CascadeType.ALL)

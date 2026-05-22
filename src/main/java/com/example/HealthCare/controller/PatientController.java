@@ -4,6 +4,7 @@ package com.example.HealthCare.controller;
 import com.example.HealthCare.dto.PatientDTO;
 import com.example.HealthCare.service.PatientService;
 import jakarta.validation.Valid;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -18,29 +19,42 @@ public class PatientController {
         this.patientService = patientService ;
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
     public List<PatientDTO> listerPatients(){
         return patientService.lister();
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     @PostMapping
     public PatientDTO ajouterPatients(@Valid @RequestBody PatientDTO patientDTO){
         return patientService.ajouter(patientDTO);
     }
 
-
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
     @PutMapping("/{id}")
     public PatientDTO modifierPatient(@PathVariable Long id ,@Valid @RequestBody PatientDTO patientDTO){
         return patientService.modifier(id , patientDTO);
     }
 
+
+    @PreAuthorize("hasRole('ADMIN')")
     @DeleteMapping("/{id}")
     public void supprimerPatient(@PathVariable Long id) {
         patientService.supprimer(id);
     }
 
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
     @GetMapping("/{id}/consulter")
     public PatientDTO cosulterPatient(@PathVariable Long id){
        return patientService.consulter(id);
     }
+
+    @PreAuthorize("hasRole('PATIENT')")
+    @GetMapping("/mine")
+    public PatientDTO monProfil() {
+        return patientService.monProfil();
+    }
+
+
 }

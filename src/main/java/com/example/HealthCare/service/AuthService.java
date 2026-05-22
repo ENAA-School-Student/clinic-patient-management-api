@@ -3,6 +3,8 @@ package com.example.HealthCare.service;
 import com.example.HealthCare.dto.UserLoginDTO;
 import com.example.HealthCare.dto.UserRegisterDTO;
 import com.example.HealthCare.mapper.UserMapper;
+import com.example.HealthCare.model.Medecin;
+import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.model.User;
 import com.example.HealthCare.repository.UserRepository;
 import com.example.HealthCare.config.JwtUtils;
@@ -31,8 +33,20 @@ public class AuthService {
     private UserMapper userMapper;
 
     public String register(UserRegisterDTO userRegisterDTO) {
+        User.Role role = User.Role.valueOf(userRegisterDTO.getRole().toUpperCase());
+        User user;
+        if(role.equals("PATIENT")){
+            user = new Patient();
+        } else if (role.equals("MEDECIN")){
+            user = new Medecin();
+        } else {
+            user = new User();
+        }
+        user.setUsername(userRegisterDTO.getUsername());
+        user.setEmail(userRegisterDTO.getEmail());
+        user.setPassword(userRegisterDTO.getPassword());
+        user.setRole(role);
 
-        User user = userMapper.toUserR(userRegisterDTO);
 
         if(userRepository.existsByEmail(user.getEmail())){
             throw new RuntimeException("L'utilisateur existe déjà");
