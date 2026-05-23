@@ -5,6 +5,8 @@ import com.example.HealthCare.dto.RendezVousDTO;
 import com.example.HealthCare.service.RendezVousService;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -22,8 +24,14 @@ public class RendezVousController {
 
     @PreAuthorize("hasAnyRole('ADMIN','PATIENT','MEDECIN')")
     @GetMapping
-    public List<RendezVousDTO> listeRendezVous(){
-        return rendezVousService.lister();
+    public Page<RendezVousDTO> listeRendezVous(Pageable pageable){
+        return rendezVousService.lister(pageable);
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT','MEDECIN')")
+    @GetMapping("/search")
+    public Page<RendezVousDTO> rechercherParStatut(@RequestParam String statut, Pageable pageable){
+        return rendezVousService.rechercherParStatut(statut, pageable);
     }
 
 

@@ -35,9 +35,9 @@ public class AuthService {
     public String register(UserRegisterDTO userRegisterDTO) {
         User.Role role = User.Role.valueOf(userRegisterDTO.getRole().toUpperCase());
         User user;
-        if(role.equals("PATIENT")){
+        if(role == User.Role.PATIENT){
             user = new Patient();
-        } else if (role.equals("MEDECIN")){
+        } else if (role == User.Role.MEDECIN){
             user = new Medecin();
         } else {
             user = new User();

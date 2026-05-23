@@ -4,6 +4,8 @@ package com.example.HealthCare.controller;
 import com.example.HealthCare.dto.PatientDTO;
 import com.example.HealthCare.service.PatientService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,8 +23,14 @@ public class PatientController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public List<PatientDTO> listerPatients(){
-        return patientService.lister();
+    public Page<PatientDTO> listerPatients(Pageable pageable){
+        return patientService.lister(pageable);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/search")
+    public Page<PatientDTO> rechercherParNom(@RequestParam String nom, Pageable pageable){
+        return patientService.rechercherParNom(nom, pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -44,17 +52,10 @@ public class PatientController {
         patientService.supprimer(id);
     }
 
-    @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT','MEDECIN')")
     @GetMapping("/{id}/consulter")
-    public PatientDTO cosulterPatient(@PathVariable Long id){
+    public PatientDTO consulterPatient(@PathVariable Long id){
        return patientService.consulter(id);
     }
-
-    @PreAuthorize("hasRole('PATIENT')")
-    @GetMapping("/mine")
-    public PatientDTO monProfil() {
-        return patientService.monProfil();
-    }
-
 
 }
