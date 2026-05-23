@@ -1,10 +1,16 @@
 package com.example.HealthCare.service;
 
-import com.example.HealthCare.dto.PatientDTO;
 import com.example.HealthCare.dto.RendezVousDTO;
 import com.example.HealthCare.mapper.RendezVousMapper;
+import com.example.HealthCare.model.Medecin;
+import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.model.RendezVous;
+import com.example.HealthCare.repository.MedecinRepository;
+import com.example.HealthCare.repository.PatientRepository;
 import com.example.HealthCare.repository.RendezVousRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,14 +20,24 @@ public class RendezVousService {
 
     private final RendezVousRepository rendezVousRepository;
     private final RendezVousMapper rendezVousMapper;
+    private final PatientRepository patientRepository;
+    private final MedecinRepository medecinRepository;
 
-    public RendezVousService(RendezVousRepository rendezVousRepository , RendezVousMapper rendezVousMapper){
+    public RendezVousService(RendezVousRepository rendezVousRepository , RendezVousMapper rendezVousMapper,
+                             PatientRepository patientRepository, MedecinRepository medecinRepository){
         this.rendezVousMapper = rendezVousMapper;
         this.rendezVousRepository = rendezVousRepository;
+        this.patientRepository = patientRepository;
+        this.medecinRepository = medecinRepository;
     }
-     public List<RendezVousDTO> lister(){
-       List<RendezVous> rendezVousList =  rendezVousRepository.findAll();
-       return rendezVousMapper.toDTOList(rendezVousList);
+     public Page<RendezVousDTO> lister(Pageable pageable){
+       Page<RendezVous> rendezVousList =  rendezVousRepository.findAll(pageable);
+       return rendezVousList.map(rendezVousMapper::toDTO);
+     }
+
+     public Page<RendezVousDTO> rechercherParStatut(String statut, Pageable pageable){
+        Page<RendezVous> rendezVousList =  rendezVousRepository.findByStatutContainingIgnoreCase(statut, pageable);
+        return rendezVousList.map(rendezVousMapper::toDTO);
      }
 
      public RendezVousDTO ajouter(RendezVousDTO rendezVousDTO){
@@ -54,4 +70,20 @@ public class RendezVousService {
         return rendezVousMapper.toDTO(rendezVous);
     }
 
+    public List<RendezVousDTO> mesRendezVous(){
+        String username = SecurityContextHolder.getContext().getAuthentication().getName();
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+                .stream().anyMatch(a -> a.getAuthority().equals("ROLE_PATIENT"))){
+            Patient p = patientRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("patient pas trouver"));
+            return rendezVousMapper.toDTOList(rendezVousRepository.findAllByPatientId(p.getId()));
+        }
+
+        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities()
+                .stream().anyMatch(a -> a.getAuthority().equals("ROLE_MEDECIN"))){
+            Medecin m = medecinRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("medecin pas trouver"));
+            return rendezVousMapper.toDTOList(rendezVousRepository.findAllByMedecinId(m.getId()));
+        }
+
+        return List.of();
+    }
 }

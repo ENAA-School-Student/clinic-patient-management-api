@@ -6,12 +6,14 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import com.example.HealthCare.service.CustomUserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 import java.io.IOException;
+import java.util.Collections;
 
 @Component
 public class JwtFilter extends OncePerRequestFilter {
@@ -33,10 +35,15 @@ public class JwtFilter extends OncePerRequestFilter {
 
             if (jwtUtils.validateToken(token)) {
                 String username = jwtUtils.extractUsername(token);
+                String role = jwtUtils.extractUserRole(token);
                 UserDetails userDetails = userDetailsService.loadUserByUsername(username);
 
+                String finalRole = role.startsWith("ROLE_") ? role : "ROLE_" + role;
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                        userDetails, null, userDetails.getAuthorities());
+                        userDetails,
+                        null,
+                        Collections.singletonList(new SimpleGrantedAuthority(finalRole))
+                );
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
             }
