@@ -3,6 +3,8 @@ package com.example.HealthCare.controller;
 import com.example.HealthCare.dto.MedecinDTO;
 import com.example.HealthCare.service.MedecinService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -20,8 +22,14 @@ public class MedecinController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public List<MedecinDTO> listerMedecin(){
-        return medecinService.lister();
+    public Page<MedecinDTO> listerMedecin(Pageable pageable){
+        return medecinService.lister(pageable);
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/search")
+    public Page<MedecinDTO> rechercherParSpecialite(@RequestParam String specialite, Pageable pageable){
+        return medecinService.rechercherParSpecialite(specialite, pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -42,9 +50,5 @@ public class MedecinController {
         medecinService.supprimer(id);
     }
 
-    @PreAuthorize("hasRole('MEDECIN')")
-    @GetMapping("/mine")
-    public MedecinDTO monProfil() {
-        return medecinService.monProfil();
-    }
+
 }

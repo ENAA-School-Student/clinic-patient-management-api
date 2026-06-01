@@ -2,6 +2,8 @@ package com.example.HealthCare.controller;
 
 import com.example.HealthCare.dto.DossierMedicalDTO;
 import com.example.HealthCare.service.DossierMedicalService;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -17,8 +19,8 @@ public class DossierMedicalController {
 
     @PreAuthorize("hasRole('ADMIN')")
     @GetMapping
-    public List<DossierMedicalDTO> listerDossierMedicals(){
-        return dossierMedicalService.lister();
+    public Page<DossierMedicalDTO> listerDossierMedicals(Pageable pageable){
+        return dossierMedicalService.lister(pageable);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
@@ -56,9 +58,5 @@ public class DossierMedicalController {
         return  dossierMedicalService.ajouterDiag(id , diagnostic);
     }
 
-    @PreAuthorize("hasRole('PATIENT')")
-    @GetMapping("/mine")
-    public DossierMedicalDTO monDossier() {
-        return dossierMedicalService.monDossier();
-    }
+
 }

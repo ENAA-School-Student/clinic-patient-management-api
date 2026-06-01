@@ -8,6 +8,8 @@ import com.example.HealthCare.model.RendezVous;
 import com.example.HealthCare.repository.MedecinRepository;
 import com.example.HealthCare.repository.PatientRepository;
 import com.example.HealthCare.repository.RendezVousRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -28,9 +30,14 @@ public class RendezVousService {
         this.patientRepository = patientRepository;
         this.medecinRepository = medecinRepository;
     }
-     public List<RendezVousDTO> lister(){
-       List<RendezVous> rendezVousList =  rendezVousRepository.findAll();
-       return rendezVousMapper.toDTOList(rendezVousList);
+     public Page<RendezVousDTO> lister(Pageable pageable){
+       Page<RendezVous> rendezVousList =  rendezVousRepository.findAll(pageable);
+       return rendezVousList.map(rendezVousMapper::toDTO);
+     }
+
+     public Page<RendezVousDTO> rechercherParStatut(String statut, Pageable pageable){
+        Page<RendezVous> rendezVousList =  rendezVousRepository.findByStatutContainingIgnoreCase(statut, pageable);
+        return rendezVousList.map(rendezVousMapper::toDTO);
      }
 
      public RendezVousDTO ajouter(RendezVousDTO rendezVousDTO){

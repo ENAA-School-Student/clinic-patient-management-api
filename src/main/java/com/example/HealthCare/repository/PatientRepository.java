@@ -1,6 +1,8 @@
 package com.example.HealthCare.repository;
 
 import com.example.HealthCare.model.Patient;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -16,4 +18,6 @@ public interface PatientRepository extends JpaRepository<Patient , Long> {
     List<Patient> getPatientsByMedecin(Long medecinId);
 
     Optional<Patient> findByUsername(String username);
+
+    Page<Patient> findByNomContainingIgnoreCase(String nom, Pageable pageable);
 }
