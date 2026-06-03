@@ -1,22 +1,45 @@
-version: "3.8"
-
 services:
   db:
     image: mysql:8.0
+    container_name: new-healthcare-db
+    restart: unless-stopped
     environment:
-      MYSQL_DATABASE: healthcare
-      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_ROOT_PASSWORD: '1234'
+      MYSQL_DATABASE: 'healthcare'
     ports:
-      - "3306:3306"
+      - "3307:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - healthcare-network
+    healthcheck:
+      test: ["CMD-SHELL", "mysqladmin ping -h localhost -uroot -p1234"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
   app:
-    build: .
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: new-healthcare-app
+    restart: on-failure
+    depends_on:
+      db:
+        condition: service_healthy
     ports:
       - "8081:8081"
     environment:
-      SPRING_DATASOURCE_URL: jdbc:mysql://db:3306/healthcare?createDatabaseIfNotExist=true
-      SPRING_DATASOURCE_USERNAME: root
-      SPRING_DATASOURCE_PASSWORD: 1234
-    depends_on:
-      - db
+      - SPRING_DATASOURCE_URL=jdbc:mysql://db:3306/healthcare?createDatabaseIfNotExist=true
+      - SPRING_DATASOURCE_USERNAME=root
+      - SPRING_DATASOURCE_PASSWORD=1234
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=validate
+    networks:
+      - healthcare-network
 
+volumes:
+  db_data:
+
+networks:
+  healthcare-network:
+    driver: bridge
