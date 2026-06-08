@@ -6,6 +6,8 @@ import com.example.HealthCare.mapper.MedecinMapper;
 import com.example.HealthCare.model.Medecin;
 import com.example.HealthCare.model.User;
 import com.example.HealthCare.repository.MedecinRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -29,6 +31,7 @@ public class MedecinService {
 
     }
 
+    @Cacheable(value = "medecins", key = "#pageable.pageNumber")
     public Page<MedecinDTO> lister(Pageable pageable){
         Page<Medecin> medecinList = medecinRepository.findAll(pageable);
         return medecinList.map(medecinMapper::toDTO);
@@ -38,7 +41,7 @@ public class MedecinService {
         Page<Medecin> medecinList = medecinRepository.findBySpecialiteContainingIgnoreCase(specialite, pageable);
         return medecinList.map(medecinMapper::toDTO);
     }
-
+    @CacheEvict(value = "medecins", allEntries = true)
     public MedecinDTO ajouter(MedecinDTO medecinDTO){
         Medecin medecin = medecinMapper.toEntity(medecinDTO);
         medecin.setRole(User.Role.MEDECIN);
@@ -47,6 +50,7 @@ public class MedecinService {
         return medecinMapper.toDTO(m);
     }
 
+    @CacheEvict(value = "medecins", allEntries = true)
     public MedecinDTO modifier(Long id , MedecinDTO medecinDTO){
         Medecin medecin = medecinRepository.findById(id).orElseThrow(() -> new RuntimeException("mededecin pas trouver"));
 

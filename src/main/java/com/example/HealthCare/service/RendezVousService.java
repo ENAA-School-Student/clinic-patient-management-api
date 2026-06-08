@@ -8,6 +8,8 @@ import com.example.HealthCare.model.RendezVous;
 import com.example.HealthCare.repository.MedecinRepository;
 import com.example.HealthCare.repository.PatientRepository;
 import com.example.HealthCare.repository.RendezVousRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -30,6 +32,8 @@ public class RendezVousService {
         this.patientRepository = patientRepository;
         this.medecinRepository = medecinRepository;
     }
+
+    @Cacheable(value = "rendezvous", key = "#pageable.pageNumber")
      public Page<RendezVousDTO> lister(Pageable pageable){
        Page<RendezVous> rendezVousList =  rendezVousRepository.findAll(pageable);
        return rendezVousList.map(rendezVousMapper::toDTO);
@@ -40,12 +44,14 @@ public class RendezVousService {
         return rendezVousList.map(rendezVousMapper::toDTO);
      }
 
+    @CacheEvict(value = "rendezvous", allEntries = true)
      public RendezVousDTO ajouter(RendezVousDTO rendezVousDTO){
         RendezVous rendezVous = rendezVousMapper.toEntity(rendezVousDTO);
         RendezVous r = rendezVousRepository.save(rendezVous);
         return rendezVousMapper.toDTO(r);
      }
 
+    @CacheEvict(value = "rendezvous", allEntries = true)
      public RendezVousDTO modifier(Long id , RendezVousDTO rendezVousDTO){
         RendezVous rendezVous = rendezVousRepository.findById(id).orElseThrow(() -> new RuntimeException("rendezVous pas trouver"));
         rendezVous.setDateRendezVous(rendezVousDTO.getDateRendezVous());

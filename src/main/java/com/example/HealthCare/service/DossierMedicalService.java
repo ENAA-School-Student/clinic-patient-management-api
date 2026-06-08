@@ -6,6 +6,8 @@ import com.example.HealthCare.model.DossierMedical;
 import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.repository.DossierMedicalRepository;
 import com.example.HealthCare.repository.PatientRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -28,11 +30,13 @@ public class DossierMedicalService {
         this.patientRepository = patientRepository;
     }
 
+    @Cacheable(value = "dossiermedical", key = "#pageable.pageNumber")
     public Page<DossierMedicalDTO> lister(Pageable pageable){
         Page<DossierMedical> dossierMedicalList = dossierMedicalRepository.findAll(pageable);
         return  dossierMedicalList.map(dossierMedicalMapper::toDTO);
     }
 
+    @CacheEvict(value = "dossiermedical", allEntries = true)
     public DossierMedicalDTO creer(DossierMedicalDTO dossierMedicalDTO){
        DossierMedical dossierMedical = dossierMedicalMapper.toEntity(dossierMedicalDTO);
        dossierMedical.setDateCreation(LocalDateTime.now());
@@ -40,6 +44,7 @@ public class DossierMedicalService {
        return dossierMedicalMapper.toDTO(d);
     }
 
+    @CacheEvict(value = "dossiermedical", allEntries = true)
     public DossierMedicalDTO modifier(Long id , DossierMedicalDTO dossierMedicalDTO){
         DossierMedical dossierMedical = dossierMedicalRepository.findById(id).orElseThrow(() -> new RuntimeException("dossier pas trouver"));
         dossierMedical.setObservations(dossierMedicalDTO.getObservations());

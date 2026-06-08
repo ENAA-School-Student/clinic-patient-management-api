@@ -6,13 +6,15 @@ import lombok.Getter;
 import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 
 @Getter
 @Setter
-public class RendezVousDTO {
-    private Long id;
+public class RendezVousDTO implements Serializable {
 
+    private static final long serialVersionUID = 1L;
+    private Long id;
     @NotNull(message = "date est obligatoire")
     private LocalDateTime dateRendezVous;
 

@@ -6,12 +6,13 @@ import jakarta.validation.constraints.Past;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 
 @Getter
 @Setter
-public class PatientDTO {
-
+public class PatientDTO implements Serializable {
+    private static final long serialVersionUID = 1L;
     private Long id;
 
     @NotBlank(message = "Le nom est obligatoire")

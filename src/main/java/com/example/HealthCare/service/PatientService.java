@@ -5,6 +5,8 @@ import com.example.HealthCare.mapper.PatientMapper;
 import com.example.HealthCare.model.Patient;
 import com.example.HealthCare.model.User;
 import com.example.HealthCare.repository.PatientRepository;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -26,6 +28,7 @@ public class PatientService {
         this.passwordEncoder = passwordEncoder;
     }
 
+    @Cacheable(value = "patients", key = "#pageable.pageNumber")
     public Page<PatientDTO> lister(Pageable pageable){
         Page<Patient> patients = patientRepository.findAll(pageable);
         return patients.map(patientMapper::toDTO);
@@ -36,7 +39,7 @@ public class PatientService {
         return patients.map(patientMapper::toDTO);
     }
 
-    @org.springframework.security.access.prepost.PreAuthorize("hasRole('ADMIN')")
+    @CacheEvict(value = "patients", allEntries = true)
     public PatientDTO ajouter(PatientDTO patientDTO){
         Patient patient =  patientMapper.toEntity(patientDTO);
         patient.setRole(User.Role.PATIENT);
@@ -46,6 +49,7 @@ public class PatientService {
         return patientMapper.toDTO(p);
     }
 
+    @CacheEvict(value = "patients", allEntries = true)
     public PatientDTO modifier(Long id , PatientDTO patientDTO){
         Patient patient = patientRepository.findById(id).orElseThrow(() -> new RuntimeException("patient pas trouver"));
 

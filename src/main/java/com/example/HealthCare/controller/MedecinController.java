@@ -1,5 +1,4 @@
 package com.example.HealthCare.controller;
-
 import com.example.HealthCare.dto.MedecinDTO;
 import com.example.HealthCare.service.MedecinService;
 import jakarta.validation.Valid;
@@ -7,8 +6,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/medecin")
@@ -49,6 +46,4 @@ public class MedecinController {
     public void supprimerMedecin(@PathVariable Long id) {
         medecinService.supprimer(id);
     }
-
-
 }
