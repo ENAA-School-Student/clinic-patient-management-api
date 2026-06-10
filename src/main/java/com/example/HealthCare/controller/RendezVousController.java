@@ -2,19 +2,28 @@ package com.example.HealthCare.controller;
 
 
 import com.example.HealthCare.dto.RendezVousDTO;
+import com.example.HealthCare.service.PdfGeneratorService;
 import com.example.HealthCare.service.RendezVousService;
 import jakarta.validation.Valid;
 import jakarta.websocket.server.PathParam;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.InputStreamResource;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.ByteArrayInputStream;
 import java.util.List;
 
 @RestController
 @RequestMapping("/RendezVous")
 public class RendezVousController {
+    @Autowired
+     private PdfGeneratorService pdfGeneratorService;
 
     private final RendezVousService rendezVousService;
     public RendezVousController(RendezVousService rendezVousService){
@@ -71,4 +80,21 @@ public class RendezVousController {
     public List<RendezVousDTO> mesRendezVous() {
         return rendezVousService.mesRendezVous();
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT','MEDECIN')")
+    @GetMapping("/download/mine")
+    public ResponseEntity<InputStreamResource> downloadMesRendezVous() {
+       List<RendezVousDTO> list = rendezVousService.mesRendezVous();
+        ByteArrayInputStream bis = pdfGeneratorService.generateRendezVousPdf(list);
+
+             var headers = new HttpHeaders();
+             headers.add("Content-Disposition", "attachment; filename=mes_rendezvous.pdf");
+
+            return ResponseEntity
+                    .ok()
+                    .headers(headers)
+                    .contentType(MediaType.APPLICATION_PDF)
+                   .body(new InputStreamResource(bis));
+    }
+
 }

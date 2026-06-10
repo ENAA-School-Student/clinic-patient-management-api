@@ -10,9 +10,6 @@ import java.util.List;
 @Setter
 @DiscriminatorValue("MEDECIN")
 public class Medecin extends User {
-@Id
-@GeneratedValue(strategy = GenerationType.IDENTITY )
- private Long id;
  private String nom;
  private String specialite;
  private String telephone;
