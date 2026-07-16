@@ -46,4 +46,10 @@ public class MedecinController {
     public void supprimerMedecin(@PathVariable Long id) {
         medecinService.supprimer(id);
     }
+
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT','MEDECIN')")
+    @GetMapping("/{id}/consulter")
+    public MedecinDTO consulterMedecin(@PathVariable Long id){
+        return medecinService.consulter(id);
+    }
 }

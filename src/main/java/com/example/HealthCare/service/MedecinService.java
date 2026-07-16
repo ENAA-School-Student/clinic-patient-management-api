@@ -75,5 +75,11 @@ public class MedecinService {
         medecinRepository.deleteById(id);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
+    public MedecinDTO consulter(Long id){
+        Medecin medecin = medecinRepository.findById(id).orElseThrow(() -> new RuntimeException("medecin pas trouver"));
+        return medecinMapper.toDTO(medecin);
+    }
+
 
 }

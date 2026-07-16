@@ -1,0 +1,256 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>HealthCare+ Mockups</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            colors: {
+              brand: {
+                50: '#eff6ff',
+                100: '#dbeafe',
+                200: '#bfdbfe',
+                300: '#93c5fd',
+                400: '#60a5fa',
+                500: '#3b82f6',
+                600: '#2563eb',
+                700: '#1d4ed8',
+                800: '#1e40af',
+                900: '#1e3a8a'
+              },
+              cyan: {
+                500: '#06B6D4'
+              },
+              slatebg: '#F8FAFC'
+            },
+            boxShadow: {
+              soft: '0 10px 30px rgba(15, 23, 42, 0.06)',
+              glow: '0 12px 36px rgba(37, 99, 235, 0.14)'
+            },
+            borderRadius: {
+              xl2: '1.25rem',
+              xl3: '1.5rem',
+              xl4: '1.75rem'
+            }
+          }
+        }
+      }
+    </script>
+  </head>
+  <body class="bg-slatebg text-slate-900 antialiased">
+    <div class="min-h-screen">
+      <header class="border-b border-slate-200 bg-white/80 backdrop-blur-xl sticky top-0 z-10">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-5 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <p class="text-sm font-medium text-brand-700">HealthCare+ UI Kit</p>
+            <h1 class="mt-1 text-2xl sm:text-3xl font-semibold tracking-tight">Premium HTML + Tailwind Mockups</h1>
+            <p class="mt-2 text-sm text-slate-500 max-w-2xl">Open any page below to preview the app screens you can copy into Figma or use as a visual reference for implementation.</p>
+          </div>
+          <div class="rounded-2xl bg-brand-50 px-4 py-3 text-sm text-brand-700 border border-brand-100">
+            Design system: blue · cyan · white · slate background
+          </div>
+        </div>
+      </header>
+
+      <main class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-8 lg:py-10">
+        <section class="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="login.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Authentication</p>
+                <h2 class="mt-1 text-xl font-semibold">Login</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Centered split-screen auth layout with premium medical branding.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="register.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Authentication</p>
+                <h2 class="mt-1 text-xl font-semibold">Register</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Account creation page matching the same visual language.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="dashboard.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Main app</p>
+                <h2 class="mt-1 text-xl font-semibold">Dashboard</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Executive overview with KPIs, appointments, activity, and insights.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="patients.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">CRUD module</p>
+                <h2 class="mt-1 text-xl font-semibold">Patients</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">List, filters, status badges, and detailed medical summary panel.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="doctors.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">CRUD module</p>
+                <h2 class="mt-1 text-xl font-semibold">Doctors</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Specialties, availability, and doctor profiles in a polished layout.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="appointments.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Scheduling</p>
+                <h2 class="mt-1 text-xl font-semibold">Appointments</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Calendar-like scheduling, table views, and status chips.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="records.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Clinical records</p>
+                <h2 class="mt-1 text-xl font-semibold">Medical Records</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Quiet, serious layout for diagnoses and observations.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="prescriptions.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Medication</p>
+                <h2 class="mt-1 text-xl font-semibold">Prescriptions</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Medication cards and treatment duration details.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="analytics.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Insights</p>
+                <h2 class="mt-1 text-xl font-semibold">Analytics</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-cyan-50 text-cyan-600 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Charts, trends, and platform performance cards.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="settings.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Preferences</p>
+                <h2 class="mt-1 text-xl font-semibold">Settings</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-brand-50 text-brand-700 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Profile, security, notifications, and language controls.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="about.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Brand</p>
+                <h2 class="mt-1 text-xl font-semibold">About</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-slate-100 text-slate-700 flex items-center justify-center group-hover:scale-105 transition">↗</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Brand story, mission, and clinic credibility page.</p>
+          </a>
+        </section>
+
+        <!-- Forms section -->
+        <h2 class="text-2xl font-semibold tracking-tight mt-10">Form Pages (Create & Edit)</h2>
+        <section class="grid gap-6 md:grid-cols-2 xl:grid-cols-3 mt-6">
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="add-patient.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Add new</p>
+                <h2 class="mt-1 text-xl font-semibold">Add Patient</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition">+</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Create a new patient record with validation.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="edit-patient.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Edit existing</p>
+                <h2 class="mt-1 text-xl font-semibold">Edit Patient</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-blue-50 text-brand-700 flex items-center justify-center group-hover:scale-105 transition">✎</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Update patient information and medical data.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="add-doctor.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Add new</p>
+                <h2 class="mt-1 text-xl font-semibold">Add Doctor</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition">+</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Register a new doctor with full professional details.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="edit-doctor.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Edit existing</p>
+                <h2 class="mt-1 text-xl font-semibold">Edit Doctor</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-blue-50 text-brand-700 flex items-center justify-center group-hover:scale-105 transition">✎</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Update doctor schedule, specialty, or availability.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="add-appointment.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Add new</p>
+                <h2 class="mt-1 text-xl font-semibold">Add Appointment</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-emerald-50 text-emerald-600 flex items-center justify-center group-hover:scale-105 transition">+</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Schedule a new appointment between patient and doctor.</p>
+          </a>
+
+          <a class="group rounded-3xl bg-white p-6 shadow-soft border border-slate-100 hover:shadow-glow transition" href="edit-appointment.html">
+            <div class="flex items-center justify-between">
+              <div>
+                <p class="text-sm text-slate-500">Edit existing</p>
+                <h2 class="mt-1 text-xl font-semibold">Edit Appointment</h2>
+              </div>
+              <span class="h-11 w-11 rounded-2xl bg-blue-50 text-brand-700 flex items-center justify-center group-hover:scale-105 transition">✎</span>
+            </div>
+            <p class="mt-4 text-sm text-slate-500">Reschedule, update status, or modify appointment details.</p>
+          </a>
+        </section>
+      </main>
+    </div>
+  </body>
+</html>
+
