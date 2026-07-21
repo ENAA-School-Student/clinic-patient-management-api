@@ -58,6 +58,4 @@ public class PatientController {
        return patientService.consulter(id);
     }
 
-
-
 }
