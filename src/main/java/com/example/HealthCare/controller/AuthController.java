@@ -1,5 +1,6 @@
 package com.example.HealthCare.controller;
 
+import com.example.HealthCare.dto.LoginResponseDTO;
 import com.example.HealthCare.dto.UserLoginDTO;
 import com.example.HealthCare.dto.UserRegisterDTO;
 import com.example.HealthCare.model.User;
@@ -16,12 +17,12 @@ public class AuthController {
     private AuthService authService;
 
     @PostMapping("/register")
-    public String register(@Valid @RequestBody UserRegisterDTO userRegister) {
+    public LoginResponseDTO register(@Valid @RequestBody UserRegisterDTO userRegister) {
         return authService.register(userRegister);
     }
 
     @PostMapping("/login")
-    public String login(@RequestBody UserLoginDTO userLogin) {
+    public LoginResponseDTO login(@RequestBody UserLoginDTO userLogin) {
         return authService.login(userLogin);
     }
 }
