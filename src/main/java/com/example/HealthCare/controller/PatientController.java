@@ -2,6 +2,7 @@ package com.example.HealthCare.controller;
 
 
 import com.example.HealthCare.dto.PatientDTO;
+
 import com.example.HealthCare.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
@@ -12,11 +13,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 
+
 @RestController
 @RequestMapping("/patient")
 public class PatientController {
 
     private final PatientService patientService;
+
     public PatientController( PatientService patientService){
         this.patientService = patientService ;
     }
@@ -33,7 +36,7 @@ public class PatientController {
         return patientService.rechercherParNom(nom, pageable);
     }
 
-    @PreAuthorize("hasRole('ADMIN')")
+    @PreAuthorize("hasAnyRole('ADMIN')")
     @PostMapping
     public PatientDTO ajouterPatients(@Valid @RequestBody PatientDTO patientDTO){
         return patientService.ajouter(patientDTO);
@@ -56,6 +59,18 @@ public class PatientController {
     @GetMapping("/{id}/consulter")
     public PatientDTO consulterPatient(@PathVariable Long id){
        return patientService.consulter(id);
+    }
+
+    @PreAuthorize("hasRole('PATIENT')")
+    @GetMapping("/me")
+    public PatientDTO myProfile() {
+        return patientService.myProfile();
+    }
+
+    @PreAuthorize("hasRole('PATIENT')")
+    @PutMapping("/me")
+    public PatientDTO updateMyProfile(@Valid @RequestBody PatientDTO patientDTO) {
+        return patientService.updateMyProfile(patientDTO);
     }
 
 }

@@ -87,6 +87,53 @@ public class PatientService {
     }
 
 
+    public PatientDTO myProfile() {
+
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        Patient patient = patientRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Patient introuvable"));
+
+        return patientMapper.toDTO(patient);
+
+    }
+
+    public PatientDTO updateMyProfile(PatientDTO patientDTO) {
+
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        Patient patient = patientRepository
+                .findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Patient introuvable"));
+
+        patient.setNom(patientDTO.getNom());
+        patient.setPrenom(patientDTO.getPrenom());
+        patient.setEmail(patientDTO.getEmail());
+        patient.setTelephone(patientDTO.getTelephone());
+        patient.setDateNaissance(patientDTO.getDateNaissance());
+
+        Patient updatedPatient = patientRepository.save(patient);
+
+        return patientMapper.toDTO(updatedPatient);
+
+    }
+
+    public List<PatientDTO> getPatientsByMedecin(Long medecinId) {
+
+        List<Patient> patients = patientRepository.getPatientsByMedecin(medecinId);
+
+        return patients.stream()
+                .map(patientMapper::toDTO)
+                .toList();
+    }
+
 
 }
 

@@ -75,12 +75,11 @@ public class RendezVousController {
     }
 
 
-    @PreAuthorize("hasAnyRole('PATIENT','MEDECIN')")
+    @PreAuthorize("hasAnyRole('ADMIN','PATIENT','MEDECIN')")
     @GetMapping("/mine")
     public List<RendezVousDTO> mesRendezVous() {
         return rendezVousService.mesRendezVous();
     }
-
     @PreAuthorize("hasAnyRole('ADMIN','PATIENT','MEDECIN')")
     @GetMapping("/download/mine")
     public ResponseEntity<InputStreamResource> downloadMesRendezVous() {

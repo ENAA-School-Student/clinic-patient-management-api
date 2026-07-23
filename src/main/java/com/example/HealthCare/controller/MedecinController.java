@@ -1,19 +1,27 @@
 package com.example.HealthCare.controller;
 import com.example.HealthCare.dto.MedecinDTO;
 import com.example.HealthCare.service.MedecinService;
+import com.example.HealthCare.service.PatientService;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import com.example.HealthCare.dto.PatientDTO;
+import com.example.HealthCare.service.PatientService;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/medecin")
 public class MedecinController {
 
     private final MedecinService medecinService;
-    public MedecinController(MedecinService medecinService){
+    private final PatientService patientService;
+    public MedecinController(MedecinService medecinService,
+                             PatientService patientService) {
         this.medecinService = medecinService;
+        this.patientService = patientService;
     }
 
 
@@ -51,5 +59,18 @@ public class MedecinController {
     @GetMapping("/{id}/consulter")
     public MedecinDTO consulterMedecin(@PathVariable Long id){
         return medecinService.consulter(id);
+    }
+
+
+    @PreAuthorize("hasRole('MEDECIN')")
+    @GetMapping("/me")
+    public MedecinDTO monProfil() {
+        return medecinService.monProfil();
+    }
+
+    @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')")
+    @GetMapping("/{id}/patients")
+    public List<PatientDTO> getPatientsByMedecin(@PathVariable Long id) {
+        return patientService.getPatientsByMedecin(id);
     }
 }

@@ -2,6 +2,7 @@ package com.example.HealthCare.service;
 
 
 import com.example.HealthCare.dto.MedecinDTO;
+import com.example.HealthCare.dto.PatientDTO;
 import com.example.HealthCare.mapper.MedecinMapper;
 import com.example.HealthCare.model.Medecin;
 import com.example.HealthCare.model.User;
@@ -13,6 +14,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.security.core.Authentication;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -81,5 +85,17 @@ public class MedecinService {
         return medecinMapper.toDTO(medecin);
     }
 
+    public MedecinDTO monProfil() {
 
+        Authentication authentication =
+                SecurityContextHolder.getContext().getAuthentication();
+
+        String username = authentication.getName();
+
+        Medecin medecin = medecinRepository.findByUsername(username)
+                .orElseThrow(() -> new RuntimeException("Médecin introuvable"));
+
+        return medecinMapper.toDTO(medecin);
+    }
+    
 }

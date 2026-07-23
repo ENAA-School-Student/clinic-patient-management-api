@@ -15,7 +15,7 @@ import java.util.Optional;
 public interface PatientRepository extends JpaRepository<Patient , Long> {
 
 
-    @Query("select p from Patient p join p.rendezVousList rv where rv.medecin.id=: medecinId")
+    @Query("select p from Patient p join p.rendezVousList rv where rv.medecin.id=:medecinId")
     List<Patient> getPatientsByMedecin(Long medecinId);
 
     Optional<Patient> findByUsername(String username);
@@ -24,5 +24,13 @@ public interface PatientRepository extends JpaRepository<Patient , Long> {
 
     @EntityGraph(attributePaths = {"rendezVousList"})
      Optional<Patient> findWithRendezVousById(Long id);
+
+    @Query("""
+       SELECT DISTINCT p
+       FROM Patient p
+       JOIN p.rendezVousList rv
+       WHERE rv.medecin.id = :medecinId
+       """)
+    List<Patient> getPatientsByMedecin(Long medecinId);
 
 }

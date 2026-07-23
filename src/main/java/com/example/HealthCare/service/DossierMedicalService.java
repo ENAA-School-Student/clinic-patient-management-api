@@ -99,5 +99,18 @@ public class DossierMedicalService {
         return  dossierMedicalMapper.toDTO(d);
     }
 
+    public DossierMedicalDTO monDossier() {
+
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        DossierMedical dossier = dossierMedicalRepository
+                .findByPatientUsername(username)
+                .orElseThrow(() -> new RuntimeException("Dossier introuvable"));
+
+        return dossierMedicalMapper.toDTO(dossier);
+    }
 
 }

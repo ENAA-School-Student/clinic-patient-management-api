@@ -76,18 +76,58 @@ public class RendezVousService {
         return rendezVousMapper.toDTO(rendezVous);
     }
 
-    public List<RendezVousDTO> mesRendezVous(){
-        String username = SecurityContextHolder.getContext().getAuthentication().getName();
-        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-                .stream().anyMatch(a -> a.getAuthority().equals("ROLE_PATIENT"))){
-            Patient p = patientRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("patient pas trouver"));
-            return rendezVousMapper.toDTOList(rendezVousRepository.findAllByPatientId(p.getId()));
+    public List<RendezVousDTO> mesRendezVous() {
+
+        String username = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getName();
+
+        boolean isAdmin = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN"));
+
+        if (isAdmin) {
+            return rendezVousMapper.toDTOList(rendezVousRepository.findAll());
         }
 
-        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities()
-                .stream().anyMatch(a -> a.getAuthority().equals("ROLE_MEDECIN"))){
-            Medecin m = medecinRepository.findByUsername(username).orElseThrow(() -> new RuntimeException("medecin pas trouver"));
-            return rendezVousMapper.toDTOList(rendezVousRepository.findAllByMedecinId(m.getId()));
+        boolean isPatient = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_PATIENT"));
+
+        if (isPatient) {
+
+            Patient patient = patientRepository
+                    .findByUsername(username)
+                    .orElseThrow(() -> new RuntimeException("Patient introuvable"));
+
+            return rendezVousMapper.toDTOList(
+                    rendezVousRepository.findAllByPatientId(patient.getId())
+            );
+        }
+
+        boolean isMedecin = SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getAuthorities()
+                .stream()
+                .anyMatch(a -> a.getAuthority().equals("ROLE_MEDECIN"));
+
+        if (isMedecin) {
+
+            Medecin medecin = medecinRepository
+                    .findByUsername(username)
+                    .orElseThrow(() -> new RuntimeException("Médecin introuvable"));
+
+            return rendezVousMapper.toDTOList(
+                    rendezVousRepository.findAllByMedecinId(medecin.getId())
+            );
         }
 
         return List.of();
