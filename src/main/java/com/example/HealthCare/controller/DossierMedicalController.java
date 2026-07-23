@@ -86,7 +86,7 @@ public class DossierMedicalController {
                 .body(new InputStreamResource(bis));
     }
 
-    @PreAuthorize("hasAnyRole('PATIENT','MEDECIN')")
+    @PreAuthorize("hasAnyRole('PATIENT','MEDECIN', 'PATIENT')")
     @GetMapping("/me")
     public DossierMedicalDTO monDossier() {
         return dossierMedicalService.monDossier();
