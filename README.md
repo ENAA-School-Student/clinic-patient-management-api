@@ -142,33 +142,6 @@ http://localhost:8080/swagger-ui.html
 
 ---
 
-# 8. Captures d'écran
-
-## Capture 1 — Ajout d'un patient
-
-![Ajout d'un patient](chemin-vers-image.png)
-
-Cette capture montre le processus d'ajout d'un nouveau patient dans le système via l'endpoint dédié.
-
-## Capture 2 — Création d'un dossier médical
-
-![Création d'un dossier médical](chemin-vers-image.png)
-
-Cette capture montre la création d'un dossier médical associé à un patient existant.
-
-## Capture 3 — Diagramme de cas d'utilisation
-
-![Diagramme de cas d'utilisation](chemin-vers-image.png)
-
-Cette capture présente le diagramme de cas d'utilisation (Use Case) du système HealthCare, illustrant les interactions entre les utilisateurs et l'application.
-
-## Capture 4 — Diagramme de classes
-
-![Diagramme de classes](chemin-vers-image.png)
-
-Cette capture présente le diagramme de classes du projet, montrant les entités principales (Patient, Médecin, Rendez-vous, Dossier médical) et leurs relations.
-
----
 
 # 9. Contribution personnelle
 
