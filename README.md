@@ -1,6 +1,6 @@
 # 1. Nom du projet
 
-**Nom du projet :** HealthCare – API REST Management System
+** HealthCare – API REST Management System
 
 ---
 
