@@ -1,7 +1,7 @@
 
 HealthCare - API REST Management System
 
-Description de l'application
+
 HealthCare est une API REST developpee sous Spring Boot 3 visant a numeriser et organiser le systeme medical d'une clinique. Cette application permet de gerer le cycle de vie complet des patients, des medecins (gestion CRUD), de planifier des rendez-vous et d'assurer le suivi via des dossiers medicaux dedies pour chaque patient.
 
 Une couche de securite a ete recemment implementee afin de proteger les donnees sensibles des patients.
