@@ -64,13 +64,13 @@ public class RendezVousController {
 
     @PreAuthorize("hasAnyRole('ADMIN','PATIENT')")
     @GetMapping("/{id}/rechercherParPatient")
-    public RendezVousDTO rechercherParPatient(@PathVariable Long id){
+    public List<RendezVousDTO> rechercherParPatient(@PathVariable Long id) {
         return rendezVousService.rechercherParPatientId(id);
     }
 
     @PreAuthorize("hasAnyRole('ADMIN','MEDECIN')")
     @GetMapping("/{id}/rechercherParMedecin")
-    public RendezVousDTO rechercherParMedecin(@PathVariable Long id){
+    public List<RendezVousDTO> rechercherParMedecin(@PathVariable Long id) {
         return rendezVousService.rechercherParMedecinId(id);
     }
 

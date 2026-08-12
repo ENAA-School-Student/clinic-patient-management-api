@@ -52,12 +52,12 @@ public class AuthService {
             throw new RuntimeException("L'utilisateur existe déjà");
         }
 
-        userRepository.save(user);
+        User savedUser = userRepository.save(user);
 
         String token = jwtUtils.generateToken(
-                user.getId(),
-                user.getUsername(),
-                user.getRole().name()
+                savedUser.getId(),
+                savedUser.getUsername(),
+                savedUser.getRole().name()
         );
 
         return new LoginResponseDTO(

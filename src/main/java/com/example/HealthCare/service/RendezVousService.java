@@ -67,14 +67,22 @@ public class RendezVousService {
        return rendezVousMapper.toDTO(r);
      }
 
-     public RendezVousDTO rechercherParPatientId(Long patientId){
-        RendezVous rendezVous = rendezVousRepository.findByPatientId(patientId);
-        return rendezVousMapper.toDTO(rendezVous);
-     }
-     public RendezVousDTO rechercherParMedecinId(Long medecinId){
-        RendezVous rendezVous = rendezVousRepository.findByMedecinId(medecinId);
-        return rendezVousMapper.toDTO(rendezVous);
+    public List<RendezVousDTO> rechercherParPatientId(Long patientId) {
+
+        List<RendezVous> rendezVousList =
+                rendezVousRepository.findByPatientId(patientId);
+
+        return rendezVousMapper.toDTOList(rendezVousList);
     }
+
+    public List<RendezVousDTO> rechercherParMedecinId(Long medecinId) {
+
+        List<RendezVous> rendezVousList =
+                rendezVousRepository.findByMedecinId(medecinId);
+
+        return rendezVousMapper.toDTOList(rendezVousList);
+    }
+
 
     public List<RendezVousDTO> mesRendezVous() {
 

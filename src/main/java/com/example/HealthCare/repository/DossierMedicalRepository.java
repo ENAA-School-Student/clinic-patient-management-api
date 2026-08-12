@@ -8,12 +8,14 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface  DossierMedicalRepository extends JpaRepository<DossierMedical , Long> {
-    DossierMedical findByPatientId(Long patientId);
+public interface DossierMedicalRepository extends JpaRepository<DossierMedical, Long> {
 
+    Optional<DossierMedical> findByPatientId(Long patientId);
 
-    @EntityGraph(attributePaths = {"patient"})
+    @EntityGraph(attributePaths = "patient")
     DossierMedical findWithPatientById(Long id);
 
+    @EntityGraph(attributePaths = "patient")
     Optional<DossierMedical> findByPatientUsername(String username);
+
 }

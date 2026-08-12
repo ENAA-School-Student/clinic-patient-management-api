@@ -43,8 +43,13 @@ public class SecurityConfig {
                         // Public endpoints
                         .requestMatchers(
                                 "/auth/**",
-                                "/error"
+                                "/error",
+                                "/v3/api-docs/**",
+                                "/swagger-ui/**",
+                                "/swagger-ui.html",
+                                "/api-docs/**"
                         ).permitAll()
+
 
                         // Everything else requires authentication
                         .anyRequest().authenticated()

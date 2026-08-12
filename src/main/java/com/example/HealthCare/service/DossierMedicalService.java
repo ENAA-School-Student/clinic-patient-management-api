@@ -1,5 +1,6 @@
 package com.example.HealthCare.service;
 
+import com.example.HealthCare.exception.ResourceNotFoundException;
 import com.example.HealthCare.dto.DossierMedicalDTO;
 import com.example.HealthCare.mapper.DossierMedicalMapper;
 import com.example.HealthCare.model.DossierMedical;
@@ -12,6 +13,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -46,7 +48,8 @@ public class DossierMedicalService {
 
     @CacheEvict(value = "dossiermedical", allEntries = true)
     public DossierMedicalDTO modifier(Long id , DossierMedicalDTO dossierMedicalDTO){
-        DossierMedical dossierMedical = dossierMedicalRepository.findById(id).orElseThrow(() -> new RuntimeException("dossier pas trouver"));
+        DossierMedical dossierMedical = dossierMedicalRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Dossier médical pas trouvé"));
         dossierMedical.setObservations(dossierMedicalDTO.getObservations());
         dossierMedical.setDiagnostic(dossierMedicalDTO.getDiagnostic());
         dossierMedical.setDateCreation(dossierMedicalDTO.getDateCreation());
@@ -59,7 +62,8 @@ public class DossierMedicalService {
     }
 
     public DossierMedicalDTO consulter(Long id){
-        DossierMedical dossierMedical = dossierMedicalRepository.findById(id).orElseThrow(() -> new RuntimeException("dossier pas trouver"));
+        DossierMedical dossierMedical = dossierMedicalRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Dossier médical pas trouvé"));
         String currentUsername = SecurityContextHolder.getContext().getAuthentication().getName();
         boolean isAdminOrMedecin = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ROLE_MEDECIN"));
@@ -72,7 +76,8 @@ public class DossierMedicalService {
     }
 
     public DossierMedicalDTO ajouterOBS(Long id , String observation){
-        DossierMedical dossierMedical = dossierMedicalRepository.findById(id).orElseThrow(() -> new RuntimeException("dossier pas trouver"));
+        DossierMedical dossierMedical = dossierMedicalRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Dossier médical pas trouvé"));
 
         boolean isAdminOrMedecin = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ROLE_MEDECIN"));
@@ -86,7 +91,8 @@ public class DossierMedicalService {
     }
 
     public DossierMedicalDTO ajouterDiag(Long id , String diagnostic){
-        DossierMedical dossierMedical = dossierMedicalRepository.findById(id).orElseThrow(() -> new RuntimeException("dossier pas trouver"));
+        DossierMedical dossierMedical = dossierMedicalRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Dossier médical pas trouvé"));
         
         boolean isAdminOrMedecin = SecurityContextHolder.getContext().getAuthentication().getAuthorities().stream()
                 .anyMatch(a -> a.getAuthority().equals("ROLE_ADMIN") || a.getAuthority().equals("ROLE_MEDECIN"));
@@ -99,6 +105,7 @@ public class DossierMedicalService {
         return  dossierMedicalMapper.toDTO(d);
     }
 
+    @Transactional
     public DossierMedicalDTO monDossier() {
 
         String username = SecurityContextHolder
@@ -108,7 +115,14 @@ public class DossierMedicalService {
 
         DossierMedical dossier = dossierMedicalRepository
                 .findByPatientUsername(username)
-                .orElseThrow(() -> new RuntimeException("Dossier introuvable"));
+                .orElseGet(() -> {
+                    Patient patient = patientRepository.findByUsername(username)
+                            .orElseThrow(() -> new ResourceNotFoundException("Patient introuvable pour l'utilisateur: " + username));
+                    DossierMedical newDossier = new DossierMedical();
+                    newDossier.setPatient(patient);
+                    newDossier.setDateCreation(LocalDateTime.now());
+                    return dossierMedicalRepository.save(newDossier);
+                });
 
         return dossierMedicalMapper.toDTO(dossier);
     }
